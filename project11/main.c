@@ -21,12 +21,13 @@ int main()
 	task_init();
 	timer_init();
 
-	printf("$ ");
 	while(1){
 		cli();
 		tag = task_delete(&task);
 		sei();
-		if(tag)
+		if(tag){
 			((*task.fun))(task.arg);
+			printf("$ ");
+		}
 	}
 }

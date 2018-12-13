@@ -46,6 +46,7 @@ void task_cmd(void *arg){
 	if (cp0 == NULL){
 		printf("!!!-111\n");
 		tour_timer();
+		printf("$ ");
 		return;
 	}
 	//using tsk_prime
@@ -56,6 +57,7 @@ void task_cmd(void *arg){
 	else if(!strcmp(cp0, "timer")){
 		if(cp1 == NULL){
 			printf("!!!-222\n");
+			printf("$ ");
 			return;
 		}
 		ms = atoi(cp1)/256;
@@ -85,9 +87,11 @@ void task_cmd(void *arg){
 		}
 		else{
 			printf("!!!-333\n");
+			printf("$ ");
 		}
 	}else{
 			printf("!!!-444\n");
+			printf("$ ");
 	}
 }
 void task_prime(char *ap){
