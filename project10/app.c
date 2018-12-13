@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "app.h"
 #include "list.h"
+#include "timer.h"
 int is_prime(int n)
 {
  int i;

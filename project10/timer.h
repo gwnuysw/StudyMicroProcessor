@@ -1,5 +1,5 @@
 #ifndef TIMER_H
-#defin TIMER_H
+#define TIMER_H
 	#include <stdio.h>
 	struct task {
 		void   (*fun)(void *);
