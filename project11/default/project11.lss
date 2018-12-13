@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 0000156b  00000000  00000000  00005b99  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000016cd  00000000  00000000  00007104  2**0
+  8 .debug_line   000016cb  00000000  00000000  00007104  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000800  00000000  00000000  000087d4  2**2
+  9 .debug_frame  00000800  00000000  00000000  000087d0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000826  00000000  00000000  00008fd4  2**0
+ 10 .debug_str    00000855  00000000  00000000  00008fd0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001c40  00000000  00000000  000097fa  2**0
+ 11 .debug_loc    00001c40  00000000  00000000  00009825  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c8  00000000  00000000  0000b43a  2**0
+ 12 .debug_ranges 000000c8  00000000  00000000  0000b465  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -353,7 +353,7 @@ void app_list(char *ap)
      24a:	bc 01       	movw	r22, r24
      24c:	00 97       	sbiw	r24, 0x00	; 0
      24e:	29 f0       	breq	.+10     	; 0x25a <app_timer+0x60>
-			break; 
+			break;
         insert_timer(&tsk, ms);
      250:	ce 01       	movw	r24, r28
      252:	09 96       	adiw	r24, 0x09	; 9
@@ -364,7 +364,7 @@ void app_list(char *ap)
      25a:	0e 94 13 04 	call	0x826	; 0x826 <tour_timer>
 	free_timer();
      25e:	0e 94 55 04 	call	0x8aa	; 0x8aa <free_timer>
-} 
+}
      262:	62 96       	adiw	r28, 0x12	; 18
      264:	0f b6       	in	r0, 0x3f	; 63
      266:	f8 94       	cli
@@ -423,7 +423,6 @@ void app_time(){
      2d6:	9e bf       	out	0x3e, r25	; 62
      2d8:	0f be       	out	0x3f, r0	; 63
      2da:	8d bf       	out	0x3d, r24	; 61
-	
 }
      2dc:	df 91       	pop	r29
      2de:	cf 91       	pop	r28
@@ -2127,9 +2126,6 @@ int main()
      c78:	de bf       	out	0x3e, r29	; 62
      c7a:	0f be       	out	0x3f, r0	; 63
      c7c:	cd bf       	out	0x3d, r28	; 61
-	printf("logout, good bye !!!\n");
- 	while(1); */
-
 	int tag;
 	struct task task;
 	led_init();

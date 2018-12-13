@@ -14,7 +14,8 @@ int is_prime(int n)
 void app_prime(char *ap)
 {
  int t = 2000, count = 0, n;
- if (ap) t = atoi(ap);
+ if (ap) t = atoi(ap);
+
  for (n = 2; n <= t; n++) {
  	if (is_prime(n)) {
 	 	count++;
@@ -32,6 +33,7 @@ void app_list(char *ap)
     	// how = ap[0] insert head or tail or ascn
     	how = *ap;
 	}
+
 	while(1) {
 		printf("> ");
 		if (fgets(buf, 8, stdin) == NULL)
@@ -59,6 +61,7 @@ void  app_timer(char *ap)  {
   int ms;
   struct task  tsk;
   //>>5000
+  //typing end with ctl + z
   while(1) {
    printf(">> ");
    if (fgets(buf, 8, stdin) == NULL || (ms = atoi(buf)) == 0)
