@@ -14,7 +14,6 @@ volatile int Task_f, Task_r;
 void task_init(){
 	Task_f = Task_r = 0;
 }
-
 int task_insert(struct task *tskp){
 	if((Task_r + 1) % MAX_TASK == Task_f)
 		return(0);
@@ -30,12 +29,14 @@ int task_delete(struct task *tskp)
 	*tskp = Task_q[Task_f];
 	return(1);
 }
+//there is no loop in task_cmd function
 void task_cmd(void *arg){
 	char buf[64], *cp0, *cp1, *cp2, *cp3;
 	struct task task;
 	int ms;
 	if(gets(buf) == NULL){
-		printf("$ "); return;
+		printf("$ ");
+		return;
 	}
 	cp0 = strtok(buf, " \t\n\r");
 	cp1 = strtok(NULL, " \t\n\r");
@@ -45,16 +46,16 @@ void task_cmd(void *arg){
 	if (cp0 == NULL){
 		printf("!!!-111\n");
 		tour_timer();
-		printf("$ "); 
 		return;
 	}
+	//using tsk_prime
 	if(!strcmp(cp0, "prime")){
 		task_prime(cp1);
 	}
+	//not using app_timer
 	else if(!strcmp(cp0, "timer")){
 		if(cp1 == NULL){
 			printf("!!!-222\n");
-			printf("$ "); 
 			return;
 		}
 		ms = atoi(cp1)/256;
@@ -63,13 +64,12 @@ void task_cmd(void *arg){
 			if(cp3){
 				strcpy(task.arg, cp3);
 			}
-			else{ 
+			else{
 				strcpy(task.arg, "");
 			}
 			cli();
 			insert_timer(&task, ms);
 			sei();
-
 		}
 		else if(!strcmp(cp2, "led")){
 			task.fun = task_led;
@@ -86,15 +86,11 @@ void task_cmd(void *arg){
 		else{
 			printf("!!!-333\n");
 		}
-	
 	}else{
 			printf("!!!-444\n");
-		}
-		printf("$ ");
-
+	}
 }
 void task_prime(char *ap){
-
 	int t=2000, count = 0, n;
 	if(ap &&*ap) t = atoi(ap);
 	for(n = 2; n <= t; n++){
