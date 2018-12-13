@@ -24,22 +24,20 @@ void app_prime(char *ap)
  }
  printf("count=%d\n", count);
 }
-void app_list(char *ap)
-{
-
-}
- void  app_timer(char *ap)  {
- 	char buf[8];
-	int ms;
-	struct task  tsk;
-	while(1) {
-		printf(">> ");
-		if (fgets(buf, 8, stdin) == NULL || (ms = atoi(buf)) == 0)
-			break;
-        insert_timer(&tsk, ms);
-	}
-	tour_timer();
-	free_timer();
+void  app_timer(char *ap)  {
+  char buf[8];
+  int ms;
+  struct task  tsk;
+  //>>5000
+  //typing end with ctl + z
+  while(1) {
+   printf(">> ");
+   if (fgets(buf, 8, stdin) == NULL || (ms = atoi(buf)) == 0)
+     break;
+   insert_timer(&tsk, ms);
+  }
+  tour_timer();
+  free_timer();
 }
 void app_time(){
 	printf("MIN : SEC\n");

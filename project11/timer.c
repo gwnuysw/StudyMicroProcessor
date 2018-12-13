@@ -10,10 +10,15 @@
 struct timer *Thead = NULL;
 
 void timer_init() {
-	TCNT2 = 0; // Initialize   Timer/Counter2
-	sbi(ASSR, AS2);// Asynchronous Timer/Counter2
-	sbi(TIMSK2, TOIE2);  // Timer2 Overflow Int. Enable
-	sbi(TCCR2B, CS20); sbi(TCCR2B, CS21); // 32KHz/32 prescaling, Start
+	// Initialize   Timer/Counter2 set all bits to zero
+	TCNT2 = 0;
+	// Asynchronous Timer/Counter2, if AS2 is zero TCNT2 using IOclock, if AS2 is one TCNT2 using Timer Oscillator 1
+	sbi(ASSR, AS2);
+	// Timer2 Overflow Int. Enable
+	sbi(TIMSK2, TOIE2);
+	// 32KHz/32 prescaling, Start
+	sbi(TCCR2B, CS20);
+	sbi(TCCR2B, CS21);
 }
 
 void insert_timer(struct task *tskp, int ms){
@@ -92,13 +97,10 @@ struct timer *get_timer()
 }
 void timer_expire(void){
 	struct timer *tp;
-
 	for(; Thead != NULL && Thead->time==0;){
-
-		tp = Thead, Thead = tp->link;
-
+		tp = Thead;
+		Thead = tp->link;
 		task_insert(&tp->task);
-
 		free(tp);
 	}
 }

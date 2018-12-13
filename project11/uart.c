@@ -23,7 +23,7 @@
 	 sbi(UCSR0B, TXEN0);
 	 sbi(UCSR0B, TXCIE0);
 	 sbi(UCSR0B, RXEN0); // RX enable
- 	 sbi(UCSR0B, RXCIE0); // RX complete interrupt enable 
+ 	 sbi(UCSR0B, RXCIE0); // RX complete interrupt enable
  }
 int uart_putchar(char ch, FILE *stream)
 {
@@ -73,7 +73,7 @@ ISR(USART0_TX_vect)
 	 	uart_busy = 0;
 	 else
 		UDR0 = ch;
-} 
+}
 ISR(USART0_RX_vect)
 {
 	struct task task;
@@ -81,10 +81,11 @@ ISR(USART0_RX_vect)
  	ch = UDR0;
 	if (ch != ETX) {
  		if (ch == '\r')
- 		ch = '\n';
+ 		 ch = '\n';
  		uart_echo(ch);
  	}
  	qi_insert(ch);
+  //type one line then execute task_cmd at the first time
 	if(ch == ETX || ch == '\n'){
 		task.fun = task_cmd;
 		strcpy(task.arg, "");
