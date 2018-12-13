@@ -13,7 +13,6 @@
 int main()
 {
  	char cmd[128], *cp, *ap;
-  int n = 0;
 
 	uart_init();
 	sei();

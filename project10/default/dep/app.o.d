@@ -6,7 +6,7 @@ app.o: ../app.c \
  c:\program\ files\ (x86)\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.6.2/include/stdarg.h \
  c:\program\ files\ (x86)\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.6.2/include/stddef.h \
  c:\program\ files\ (x86)\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.6.2/../../../../avr/include/stdlib.h \
- ../app.h ../list.h
+ ../app.h ../list.h ../timer.h
 
 c:\program\ files\ (x86)\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.6.2/../../../../avr/include/stdio.h:
 
@@ -25,3 +25,5 @@ c:\program\ files\ (x86)\atmel\avr\ tools\avr\ toolchain\bin\../lib/gcc/avr/4.6.
 ../app.h:
 
 ../list.h:
+
+../timer.h:
