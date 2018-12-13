@@ -1,6 +1,5 @@
 #ifndef LIST_H
 #define LIST_H
-	//extern struct node *Head;
 	struct node {
 		int data;
 		struct node *link;

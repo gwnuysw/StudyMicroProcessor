@@ -28,9 +28,10 @@ void app_list(char *ap)
 	char buf[8], how = 'a';
 	struct node *np;
 
-	if (ap)
-    // how = ap[0] insert head or tail or ascn
-    how = *ap;
+	if (ap){
+    	// how = ap[0] insert head or tail or ascn
+    	how = *ap;
+	}
 	while(1) {
 		printf("> ");
 		if (fgets(buf, 8, stdin) == NULL)

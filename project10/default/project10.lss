@@ -333,11 +333,11 @@ void app_list(char *ap)
 	char buf[8], how = 'a';
 	struct node *np;
 
-	if (ap)
+	if (ap){
      21c:	00 97       	sbiw	r24, 0x00	; 0
      21e:	19 f0       	breq	.+6      	; 0x226 <app_list+0x24>
-    // how = ap[0] insert head or tail or ascn
-    how = *ap;
+    	// how = ap[0] insert head or tail or ascn
+    	how = *ap;
      220:	fc 01       	movw	r30, r24
      222:	10 81       	ld	r17, Z
      224:	01 c0       	rjmp	.+2      	; 0x228 <app_list+0x26>
@@ -348,10 +348,10 @@ void app_list(char *ap)
 {
 	char buf[8], how = 'a';
      226:	11 e6       	ldi	r17, 0x61	; 97
-
-	if (ap)
-    // how = ap[0] insert head or tail or ascn
-    how = *ap;
+	if (ap){
+    	// how = ap[0] insert head or tail or ascn
+    	how = *ap;
+	}
 	while(1) {
 		printf("> ");
      228:	24 e2       	ldi	r18, 0x24	; 36
