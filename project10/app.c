@@ -27,9 +27,9 @@ void app_list(char *ap)
 	char buf[8], how = 'a';
 	struct node *np;
 
-	if (ap)
-    // how = ap[0] insert head or tail or ascn
+	if (ap){// how = ap[0] insert head or tail or ascn
     how = *ap;
+  }
 	while(1) {
 		printf("> ");
 		if (fgets(buf, 8, stdin) == NULL)
@@ -57,6 +57,7 @@ void  app_timer(char *ap)  {
   int ms;
   struct task  tsk;
   //>>5000
+  //typing end with ctl + z
   while(1) {
    printf(">> ");
    if (fgets(buf, 8, stdin) == NULL || (ms = atoi(buf)) == 0)

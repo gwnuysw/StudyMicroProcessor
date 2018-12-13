@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "timer.h"
+
 struct timer *Thead = NULL;
+
 void insert_timer(struct task *tskp, int ms){
 	int total;
 	struct timer *tp, *cp, *pp;
