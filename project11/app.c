@@ -35,14 +35,13 @@ void app_list(char *ap)
 	while(1) {
 		printf(">> ");
 		if (fgets(buf, 8, stdin) == NULL || (ms = atoi(buf)) == 0)
-			break; 
+			break;
         insert_timer(&tsk, ms);
 	}
 	tour_timer();
 	free_timer();
-} 
+}
 void app_time(){
 	printf("MIN : SEC\n");
 	printf("%.2d : %.2d\n", exe_time/60, exe_time%60);
-	
 }

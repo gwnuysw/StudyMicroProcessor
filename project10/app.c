@@ -27,19 +27,42 @@ void app_list(char *ap)
 	char buf[8], how = 'a';
 	struct node *np;
 
-	if (ap) how = *ap; // how = ap[0]
+	if (ap)
+    // how = ap[0] insert head or tail or ascn
+    how = *ap;
 	while(1) {
 		printf("> ");
 		if (fgets(buf, 8, stdin) == NULL)
  			break;
 		np = get_node();
-		np->data = buf[0]; // use only the first character in buf
+    // use only the first character in buf and buf is number
+		np->data = buf[0];
 		switch(how) {
-			case 'h' :insert_node_head(np); break;
-			case 't' :insert_node_tail(np); break;
-			default :insert_node_ascn(np); // ¡®a¡¯
+			case 'h' :
+        insert_node_head(np);
+        break;
+			case 't' :
+        insert_node_tail(np);
+        break;
+			default :
+        //ascn is listing small to big
+        insert_node_ascn(np);
  		}
  	}
  	tour_list();
  	free_list();
+}
+void  app_timer(char *ap)  {
+  char buf[8];
+  int ms;
+  struct task  tsk;
+  //>>5000
+  while(1) {
+   printf(">> ");
+   if (fgets(buf, 8, stdin) == NULL || (ms = atoi(buf)) == 0)
+     break;
+   insert_timer(&tsk, ms);
+  }
+  tour_timer();
+  free_timer();
 }
