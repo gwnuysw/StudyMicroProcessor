@@ -52,14 +52,14 @@ void task_cmd(void *arg){
 	if (cp0 == NULL){
 		printf("!!!-111\n");
 		tour_timer();
-		printf("$ "); 
+		printf("$ ");
 		return;
 	}
 	if(!strcmp(cp0, "prime")){
 		task_prime(cp1);
 	}
 	else if (!strcmp(cp0, "tc1047a"))
-		task_tc1047a(""); 
+		task_tc1047a("");
 	else if (!strcmp(cp0, "tc77"))
 		task_tc77("");
 	else if (!strcmp(cp0, "tcn75_i2c"))
@@ -69,7 +69,7 @@ void task_cmd(void *arg){
 	else if(!strcmp(cp0,"timer")){
 		if(cp1 == NULL){
 			printf("!!!-222\n");
-			printf("$ "); 
+			printf("$ ");
 			return;
 		}
 		ms = atoi(cp1)/256;
@@ -78,7 +78,7 @@ void task_cmd(void *arg){
 			if(cp3){
 				strcpy(task.arg, cp3);
 			}
-			else{ 
+			else{
 				strcpy(task.arg, "");
 			}
 			cli();
@@ -102,7 +102,7 @@ void task_cmd(void *arg){
 			if(cp3){
 				strcpy(task.arg, cp3);
 			}
-			else{ 
+			else{
 				strcpy(task.arg, "");
 			}
 			cli();
@@ -112,7 +112,7 @@ void task_cmd(void *arg){
 		else{
 			printf("!!!-333\n");
 		}
-	
+
 	}else{
 			printf("!!!-444\n");
 		}
@@ -132,15 +132,15 @@ void task_prime(char *ap){
 	printf("count=%d\n",count);
 }
  void  task_tc1047a(void *arg) {
- 	int   value; 
- 
+ 	int   value;
+
     if (!strcmp(arg, ""))   // called from task_cmd or timer task
 		adc_start();
 	else  {                                // called from ISR()
 		printf("value : %d",atoi(arg));
 	    value = atoi(arg) * (1.1/1024) * 1000;
 		value = (value - 500) / 10;
-		printf("task_tc1047a() : current temperature ? %d degree.\n", value); 
+		printf("task_tc1047a() : current temperature ? %d degree.\n", value);
 	}
 }
 void task_tc77(void *arg){
@@ -170,65 +170,71 @@ void task_tc77(void *arg){
 }
 void task_tcn75_i2c(void *arg)
 {
- uint16_t value;
+  uint16_t value;
 
- i2c_tcn75_trans_start();
- if (i2c_tcn75_write_one_byte(0x90) != 0) { // address + write_operation
- i2c_tcn75_trans_stop(); printf("task_tcn75_i2c() : SLA+W write fail¡¦\n");
- return;
- }
- if (i2c_tcn75_write_one_byte(0x00) != 0) { // pointer(TEMP)
- i2c_tcn75_trans_stop(); printf("task_tcn75_i2c() : pointer write fail¡¦\n");
- return;
- }
- i2c_tcn75_trans_start(); // Repeat Start
- if (i2c_tcn75_write_one_byte(0x91) != 0) { // address + read_operation
- i2c_tcn75_trans_stop(); printf("task_tcn75_i2c() : SLA+R write fail¡¦\n");
- return;
- } // read TEMP register
- value = ((i2c_tcn75_read_one_byte(0) << 8) | i2c_tcn75_read_one_byte(1)) >> 7;
- i2c_tcn75_trans_stop();
- value = value >> 1; // value = value * 0.5
- printf("task_tcn75_i2c() : current_temperature ? %d degree.\n", value);
+  i2c_tcn75_trans_start();
+  if (i2c_tcn75_write_one_byte(0x90) != 0) { // address + write_operation
+    i2c_tcn75_trans_stop();
+    printf("task_tcn75_i2c() : SLA+W write failï¿½ï¿½\n");
+    return;
+  }
+  if (i2c_tcn75_write_one_byte(0x00) != 0) { // pointer(TEMP)
+    i2c_tcn75_trans_stop();
+    printf("task_tcn75_i2c() : pointer write failï¿½ï¿½\n");
+    return;
+  }
+  i2c_tcn75_trans_start(); // Repeat Start
+  if (i2c_tcn75_write_one_byte(0x91) != 0) { // address + read_operation
+    i2c_tcn75_trans_stop();
+    printf("task_tcn75_i2c() : SLA+R write failï¿½ï¿½\n");
+    return;
+  }
+  // read TEMP register
+  value = ((i2c_tcn75_read_one_byte(0) << 8) | i2c_tcn75_read_one_byte(1)) >> 7;
+  i2c_tcn75_trans_stop();
+  value = value >> 1; // value = value * 0.5
+  printf("task_tcn75_i2c() : current_temperature ? %d degree.\n", value);
 }
 void task_tc75_twi(void *arg)
- {
- 	uint16_t value; uint8_t hbyte, lbyte;
+{
+	uint16_t value; uint8_t hbyte, lbyte;
 
-	 if (twi_start() != TW_START) { 
- 		twi_stop(); 
-		printf("task_tc75: Start error¡¦\n");
-		return; 
-	}
- 	if (twi_write_one_byte(0x90) != TW_MT_SLA_ACK) { // address + write_operation
- 		twi_stop(); 
-		printf("task_tc75() : SLA+W write fail¡¦\n"); 
-		return;
- 	}
- 	if (twi_write_one_byte(0x00) != TW_MT_DATA_ACK) { // pointer(TEMP)
- 		twi_stop(); printf("task_tc75() : pointer write fail¡¦\n"); return;
-	}
- 	if (twi_start() != TW_REP_START) {
-		twi_stop(); 
-		printf("Repeat Start error¡¦\n"); 
-		return; 
-	}
-	 if (twi_write_one_byte(0x91) != TW_MR_SLA_ACK) { // address + read_operation
-	 	twi_stop(); 
-		printf("task_tc75() : SLA+R write fail¡¦\n"); 
-		return;
-	 }
- 	if (twi_read_one_byte(&hbyte, 1) != TW_MR_DATA_ACK) { // read hi_byte of TEMP register
- 		twi_stop(); 
-		printf("task_tc75() : read hi_byte fail¡¦\n"); 
-		return;
- 	}
- 	if (twi_read_one_byte(&lbyte, 0) != TW_MR_DATA_NACK) { // read lo_byte of TEMP register
- 		twi_stop(); 
-		printf("task_tc75()_1 : read lo_byte fail¡¦\n"); 
-		return;
- 	}
- 	twi_stop();
- 	value = ((hbyte << 8 | lbyte) >> 7) >> 1; // value = value * 0.5
- 	printf("task_tc75()_1 : current_temperature ? %d degree.\n", value);
- }
+  if (twi_start() != TW_START) {
+		twi_stop();
+  	printf("task_tc75: Start errorï¿½ï¿½\n");
+  	return;
+  }
+	if (twi_write_one_byte(0x90) != TW_MT_SLA_ACK) { // address + write_operation
+		twi_stop();
+  	printf("task_tc75() : SLA+W write failï¿½ï¿½\n");
+  	return;
+  }
+	if (twi_write_one_byte(0x00) != TW_MT_DATA_ACK) { // pointer(TEMP)
+		twi_stop();
+    printf("task_tc75() : pointer write failï¿½ï¿½\n");
+    return;
+  }
+	if (twi_start() != TW_REP_START) {
+	  twi_stop();
+  	printf("Repeat Start errorï¿½ï¿½\n");
+  	return;
+  }
+  if (twi_write_one_byte(0x91) != TW_MR_SLA_ACK) { // address + read_operation
+   	twi_stop();
+  	printf("task_tc75() : SLA+R write failï¿½ï¿½\n");
+  	return;
+  }
+	if (twi_read_one_byte(&hbyte, 1) != TW_MR_DATA_ACK) { // read hi_byte of TEMP register
+		twi_stop();
+  	printf("task_tc75() : read hi_byte failï¿½ï¿½\n");
+  	return;
+  }
+	if (twi_read_one_byte(&lbyte, 0) != TW_MR_DATA_NACK) { // read lo_byte of TEMP register
+		twi_stop();
+  	printf("task_tc75()_1 : read lo_byte failï¿½ï¿½\n");
+  	return;
+  }
+	twi_stop();
+	value = ((hbyte << 8 | lbyte) >> 7) >> 1; // value = value * 0.5
+	printf("task_tc75()_1 : current_temperature ? %d degree.\n", value);
+}

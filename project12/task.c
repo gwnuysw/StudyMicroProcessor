@@ -46,18 +46,18 @@ void task_cmd(void *arg){
 	if (cp0 == NULL){
 		printf("!!!-111\n");
 		tour_timer();
-		printf("$ "); 
+		printf("$ ");
 		return;
 	}
 	if(!strcmp(cp0, "prime")){
 		task_prime(cp1);
 	}
 	else if (!strcmp(cp0, "tc1047a"))
-		task_tc1047a(""); 
+		task_tc1047a("");
 	else if(!strcmp(cp0, "timer")){
 		if(cp1 == NULL){
 			printf("!!!-222\n");
-			printf("$ "); 
+			printf("$ ");
 			return;
 		}
 		ms = atoi(cp1)/256;
@@ -66,7 +66,7 @@ void task_cmd(void *arg){
 			if(cp3){
 				strcpy(task.arg, cp3);
 			}
-			else{ 
+			else{
 				strcpy(task.arg, "");
 			}
 			cli();
@@ -89,12 +89,10 @@ void task_cmd(void *arg){
 		else{
 			printf("!!!-333\n");
 		}
-	
-	}else{
-			printf("!!!-444\n");
-		}
-		printf("$ ");
 
+	}else{
+		printf("!!!-444\n");
+	}
 }
 void task_prime(char *ap){
 
@@ -108,15 +106,14 @@ void task_prime(char *ap){
  	}
 	printf("count=%d\n",count);
 }
- void  task_tc1047a(void *arg) {
- 	int   value; 
- 
-    if (!strcmp(arg, ""))   // called from task_cmd or timer task
+void  task_tc1047a(void *arg) {
+ 	int   value;
+  if (!strcmp(arg, ""))   // called from task_cmd or timer task
 		adc_start();
 	else  {                                // called from ISR()
 		printf("value : %d",atoi(arg));
-	    value = atoi(arg) * (1.1/1024) * 1000;
+	  value = atoi(arg) * (1.1/1024) * 1000;
 		value = (value - 500) / 10;
-		printf("task_tc1047a() : current temperature ? %d degree.\n", value); 
+		printf("task_tc1047a() : current temperature ? %d degree.\n", value);
 	}
 }

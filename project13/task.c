@@ -51,20 +51,20 @@ void task_cmd(void *arg){
 	if (cp0 == NULL){
 		printf("!!!-111\n");
 		tour_timer();
-		printf("$ "); 
+		printf("$ ");
 		return;
 	}
 	if(!strcmp(cp0, "prime")){
 		task_prime(cp1);
 	}
 	else if (!strcmp(cp0, "tc1047a"))
-		task_tc1047a(""); 
+		task_tc1047a("");
 	else if (!strcmp(cp0, "tc77"))
 		task_tc77("");
 	else if(!strcmp(cp0, "timer")){
 		if(cp1 == NULL){
 			printf("!!!-222\n");
-			printf("$ "); 
+			printf("$ ");
 			return;
 		}
 		ms = atoi(cp1)/256;
@@ -73,7 +73,7 @@ void task_cmd(void *arg){
 			if(cp3){
 				strcpy(task.arg, cp3);
 			}
-			else{ 
+			else{
 				strcpy(task.arg, "");
 			}
 			cli();
@@ -97,7 +97,7 @@ void task_cmd(void *arg){
 			if(cp3){
 				strcpy(task.arg, cp3);
 			}
-			else{ 
+			else{
 				strcpy(task.arg, "");
 			}
 			cli();
@@ -107,7 +107,7 @@ void task_cmd(void *arg){
 		else{
 			printf("!!!-333\n");
 		}
-	
+
 	}else{
 			printf("!!!-444\n");
 		}
@@ -127,39 +127,45 @@ void task_prime(char *ap){
 	printf("count=%d\n",count);
 }
  void  task_tc1047a(void *arg) {
- 	int   value; 
- 
+ 	int   value;
+
     if (!strcmp(arg, ""))   // called from task_cmd or timer task
 		adc_start();
 	else  {                                // called from ISR()
 		printf("value : %d",atoi(arg));
-	    value = atoi(arg) * (1.1/1024) * 1000;
+	  value = atoi(arg) * (1.1/1024) * 1000;
 		value = (value - 500) / 10;
-		printf("task_tc1047a() : current temperature ? %d degree.\n", value); 
+		printf("task_tc1047a() : current temperature ? %d degree.\n", value);
 	}
 }
 void task_tc77(void *arg){
-	static uint8_t state;
-	 static uint16_t value;
+	 static uint8_t state;
+   static uint16_t value;
 
-	 if (!strcmp(arg, "")) {
-		 state = TC77_WAIT_HI;
-		 spi_select();
-		 spi_write(0x00);
-	 }
-	 else {
-		 switch(state) {
-			 case TC77_WAIT_HI :
-				 value = atoi(arg) << 8; state = TC77_WAIT_LO; spi_write(0x00);
-				 break;
-			 case TC77_WAIT_LO:
-				 value |= atoi(arg); value = (value >> 3) * 0.0625;
-				 spi_release();
-				printf("task_tc77() : current_temperature ? %d degree.\n", value);
-				 break;
-			 default:
-				 spi_release();
-				 printf("task_tc77() : unexpecetd state in task_tc77...\n");
-		 }
-	 }
+   if (!strcmp(arg, "")) {
+  	 state = TC77_WAIT_HI;
+  	 spi_select();
+  	 spi_write(0x00);
+   }
+   else {
+  	 switch(state) {
+  		 case TC77_WAIT_HI :
+         //recv High 8 bits
+  			 value = atoi(arg) << 8;
+         state = TC77_WAIT_LO;
+         //request next value
+         spi_write(0x00);
+  			 break;
+  		 case TC77_WAIT_LO:
+         //recv Low 8 bits
+         value |= atoi(arg);
+         value = (value >> 3) * 0.0625;
+  			 spi_release();
+  			 printf("task_tc77() : current_temperature ? %d degree.\n", value);
+  			 break;
+  		 default:
+  			 spi_release();
+  			 printf("task_tc77() : unexpecetd state in task_tc77...\n");
+  	 }
+   }
 }
